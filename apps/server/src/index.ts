@@ -5,8 +5,9 @@ import { swagger } from "@elysiajs/swagger";
 import { opentelemetry, record } from "@elysiajs/opentelemetry";
 import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-node";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
+import { authRoutes, guardRoutes } from "./route";
 
-export const app = new Elysia()
+export const app = new Elysia({ prefix: "/api" })
   .use(
     opentelemetry({
       spanProcessors: [new BatchSpanProcessor(new OTLPTraceExporter())],
@@ -14,19 +15,8 @@ export const app = new Elysia()
   )
   .use(swagger())
   .get("/", () => "hello world")
-  .post(
-    "/",
-    ({ body: { username } }) => {
-      return record("username.post", () => {
-        return username;
-      });
-    },
-    {
-      body: t.Object({
-        username: t.String(),
-      }),
-    }
-  )
+  .use(authRoutes)
+  .use(guardRoutes)
   .listen(process.env.PORT ?? 3001);
 
 export type App = typeof app;

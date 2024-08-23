@@ -3,18 +3,24 @@
   "version": "1.0.50",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts"
+    "dev": "bun run --watch src/index.ts",
+    "prisma:push": "bunx prisma db push"
   },
   "dependencies": {
-    "elysia": "latest",
+    "@elysiajs/bearer": "^1.1.1",
+    "@elysiajs/jwt": "^1.1.0",
     "@elysiajs/opentelemetry": "latest",
     "@elysiajs/swagger": "latest",
+    "@opentelemetry/exporter-trace-otlp-proto": "latest",
     "@opentelemetry/sdk-trace-node": "latest",
-    "@opentelemetry/exporter-trace-otlp-proto": "latest"
+    "@prisma/client": "^5.18.0",
+    "elysia": "latest"
   },
   "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/bun": "^1.1.6",
     "bun-types": "latest",
-    "@repo/typescript-config": "workspace:*"
+    "prisma": "^5.18.0"
   },
   "module": "src/index.js",
   "main": "src/index.ts",
